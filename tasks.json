@@ -1,1 +1,14 @@
-[]
+[
+    {
+        "text": "Code Daily 2 hours",
+        "done": false
+    },
+    {
+        "text": "Pray salah 5 times a day",
+        "done": false
+    },
+    {
+        "text": "Sleep properly for 8 hours a day.",
+        "done": false
+    }
+]

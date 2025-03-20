@@ -43,93 +43,83 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple To-Do App</title>
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 400px;
-            margin: 50px auto;
-            background-color: #f8f9fa;
+            margin-top: 20px;
+        }
+        .task-card {
+            border: 1px solid #ececec; 
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            border-radius: 5px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
         }
-        h2 {
-            color: #333;
+        .task {
+            color: #888;
         }
-        .done {
+        .task-done {
             text-decoration: line-through;
-            color: gray;
+            color: #888;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
         }
         ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background: white;
-            margin: 5px 0;
-            border-radius: 5px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        input[type="text"] {
-            padding: 10px;
-            width: calc(100% - 90px);
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            color: black;
-            background-color: white;
+            padding-left: 20px;
         }
         button {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
             cursor: pointer;
-        }
-        button[type="submit"] {
-            background-color: #007bff;
-            color: white;
-        }
-        .delete-button {
-            background-color: #dc3545;
-            color: white;
-        }
-        .task-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
     </style>
 </head>
 <body>
-    <h2>To-Do List</h2>
-    <form method="POST">
-        <input type="text" name="task" placeholder="Enter a task" required>
-        <button type="submit" name="action" value="add">Add</button>
-    </form>
-    <ul>
-        <?php foreach ($tasks as $index => $task): ?>
-            <li>
-                <div class="task-container">
-                    <form method="POST" style="display:inline;">
-                        <input type="hidden" name="index" value="<?= $index ?>">
-                        <button type="submit" name="action" value="toggle" style="border:none;background:none;cursor:pointer;">
-                            <span class="<?= $task['done'] ? 'done' : '' ?>" style="color: black;">
-                                <?= ($index + 1) . '. ' . $task['text'] ?>
-                            </span>
-                        </button>
-                    </form>
+    <div class="container">
+        <div class="task-card">
+            <h1>To-Do App</h1>
+
+            <!-- Add Task Form -->
+            <form method="POST">
+                <div class="row">
+                    <div class="column column-75">
+                        <input type="text" name="task" placeholder="Enter a new task" required>
+                    </div>
+                    <div class="column column-25">
+                        <button type="submit" name="action" value="add" class="button-primary">Add Task</button>
+                    </div>
                 </div>
-                <form method="POST" style="display:inline;">
-                    <input type="hidden" name="index" value="<?= $index ?>">
-                    <button type="submit" name="action" value="delete" class="delete-button">Delete</button>
-                </form>
-            </li>
-        <?php endforeach; ?>
-    </ul>
+            </form>
+
+            <!-- Task List -->
+            <h2>Task List</h2>
+            <ul style="list-style: none; padding: 0;">
+                <?php if (empty($tasks)): ?>
+                    <li>No tasks yet. Add one above!</li>
+                <?php else: ?>
+                    <?php foreach ($tasks as $index => $task): ?>
+                        <li class="task-item">
+                            <form method="POST" style="flex-grow: 1;">
+                                <input type="hidden" name="index" value="<?= $index ?>">
+                                <button type="submit" name="action" value="toggle" style="border: none; background: none; cursor: pointer; text-align: left; width: 100%;">
+                                    <span class="task <?= $task['done'] ? 'task-done' : '' ?>">
+                                        <?= ($index + 1) . ". " . htmlspecialchars($task['text']) ?> 
+                                    </span>
+                                </button>
+                            </form>
+
+                            <form method="POST">
+                                <input type="hidden" name="index" value="<?= $index ?>">
+                                <button type="submit" name="action" value="delete" class="button button-outline" style="margin-left: 10px;">Delete</button>
+                            </form>
+                        </li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

@@ -5,10 +5,10 @@
     },
     {
         "text": "Pray salah 5 times a day",
-        "done": false
+        "done": true
     },
     {
-        "text": "Sleep properly for 8 hours a day.",
+        "text": "Complete PHP project",
         "done": false
     }
 ]

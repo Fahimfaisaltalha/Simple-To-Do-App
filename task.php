@@ -34,8 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Save the tasks back to the file
         file_put_contents($tasksFile, json_encode($tasks, JSON_PRETTY_PRINT));
     }
-    header('Location: task.php');
+    header('Location: ' . $_SERVER['PHP_SELF']);
     exit;
+    
+   
 }
 ?>
 <!DOCTYPE html>
